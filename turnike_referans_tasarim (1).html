@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>BOYUT Turnike Sistemi — Referans Tasarım</title>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@latest/tabler-icons.min.css">
+<style>
+*{box-sizing:border-box;margin:0;padding:0;font-family:'Segoe UI',sans-serif}
+body{background:#07051a;display:flex;align-items:center;justify-content:center;min-height:100vh;padding:20px}
+.app{display:grid;grid-template-columns:170px 1fr;width:1100px;min-height:700px;background:#0f0c29;border-radius:20px;overflow:hidden;border:1px solid rgba(139,92,246,0.2)}
+.sidebar{background:linear-gradient(180deg,#1a1040 0%,#0f0c29 100%);border-right:1px solid rgba(139,92,246,0.15);padding:20px 0;display:flex;flex-direction:column}
+.logo-area{padding:0 18px 20px;border-bottom:1px solid rgba(139,92,246,0.12);margin-bottom:16px}
+.logo-ring{width:42px;height:42px;border-radius:12px;background:linear-gradient(135deg,#7c3aed,#06b6d4);display:flex;align-items:center;justify-content:center;margin-bottom:10px}
+.logo-name{color:white;font-size:15px;font-weight:700;letter-spacing:.5px}
+.logo-tag{color:rgba(139,92,246,0.6);font-size:9px;letter-spacing:2px}
+.nav{padding:0 10px}
+.ni{display:flex;align-items:center;gap:9px;padding:10px 12px;border-radius:10px;font-size:11px;color:rgba(255,255,255,0.4);cursor:pointer;margin-bottom:3px}
+.ni.active{background:linear-gradient(90deg,rgba(124,58,237,0.25),rgba(6,182,212,0.1));color:#06b6d4;font-weight:600}
+.ni i{font-size:15px}
+.ni-badge{margin-left:auto;background:rgba(6,182,212,0.15);color:#06b6d4;font-size:8px;padding:1px 6px;border-radius:8px}
+.user-area{margin-top:auto;padding:14px 18px;border-top:1px solid rgba(139,92,246,0.1)}
+.user-av{width:32px;height:32px;border-radius:50%;background:linear-gradient(135deg,#7c3aed,#06b6d4);display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;color:white}
+.main{padding:22px;background:linear-gradient(135deg,#0f0c29 0%,#1a0533 50%,#0c1a3a 100%)}
+.topbar{display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:22px}
+.greeting{color:white;font-size:18px;font-weight:700}
+.greeting-sub{color:rgba(255,255,255,0.35);font-size:11px;margin-top:4px}
+.topbar-pills{display:flex;align-items:center;gap:8px}
+.pill{display:flex;align-items:center;gap:5px;background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.1);border-radius:20px;padding:6px 14px;font-size:10px;color:rgba(255,255,255,0.6)}
+.pill-live{background:rgba(6,182,212,0.1);border-color:rgba(6,182,212,0.3);color:#06b6d4}
+.pulse{width:7px;height:7px;border-radius:50%;background:#06b6d4;animation:p 1.4s infinite}
+@keyframes p{0%,100%{opacity:1;transform:scale(1)}50%{opacity:.3;transform:scale(.8)}}
+.stats-row{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:12px}
+.sc{border-radius:16px;padding:16px;position:relative;overflow:hidden;border:1px solid rgba(255,255,255,0.07)}
+.sc-1{background:linear-gradient(135deg,rgba(124,58,237,0.3),rgba(124,58,237,0.05))}
+.sc-2{background:linear-gradient(135deg,rgba(6,182,212,0.3),rgba(6,182,212,0.05))}
+.sc-3{background:linear-gradient(135deg,rgba(16,185,129,0.3),rgba(16,185,129,0.05))}
+.sc-4{background:linear-gradient(135deg,rgba(239,68,68,0.25),rgba(239,68,68,0.05))}
+.sc-icon{width:34px;height:34px;border-radius:9px;display:flex;align-items:center;justify-content:center;margin-bottom:12px;font-size:16px}
+.sc-1 .sc-icon{background:rgba(124,58,237,0.3);color:#a78bfa}
+.sc-2 .sc-icon{background:rgba(6,182,212,0.3);color:#06b6d4}
+.sc-3 .sc-icon{background:rgba(16,185,129,0.3);color:#34d399}
+.sc-4 .sc-icon{background:rgba(239,68,68,0.3);color:#f87171}
+.sc-num{font-size:24px;font-weight:800;color:white;line-height:1;margin-bottom:4px}
+.sc-lbl{font-size:10px;color:rgba(255,255,255,0.45)}
+.sc-trend{font-size:9px;margin-top:8px;display:flex;align-items:center;gap:3px}
+.sc-glow{position:absolute;top:-20px;right:-20px;width:90px;height:90px;border-radius:50%;opacity:.15}
+.sc-1 .sc-glow{background:#7c3aed}
+.sc-2 .sc-glow{background:#06b6d4}
+.sc-3 .sc-glow{background:#10b981}
+.sc-4 .sc-glow{background:#ef4444}
+.stats-row2{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:14px}
+.sc2{border-radius:12px;padding:12px 14px;border:1px solid rgba(255,255,255,0.06);background:rgba(255,255,255,0.03);display:flex;align-items:center;gap:12px}
+.sc2-icon{width:38px;height:38px;border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:17px;flex-shrink:0}
+.sc2-num{font-size:17px;font-weight:700;color:white}
+.sc2-lbl{font-size:9px;color:rgba(255,255,255,0.35)}
+.sc2-tr{font-size:9px;margin-top:2px}
+.bottom{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.panel{background:rgba(255,255,255,0.03);border:1px solid rgba(255,255,255,0.07);border-radius:16px;overflow:hidden}
+.ph{padding:13px 16px;border-bottom:1px solid rgba(255,255,255,0.06);display:flex;align-items:center;gap:8px}
+.ph-title{color:rgba(255,255,255,0.75);font-size:12px;font-weight:600}
+.ph-badge{margin-left:auto;font-size:9px;padding:2px 8px;border-radius:8px;background:rgba(6,182,212,0.12);color:#06b6d4;border:1px solid rgba(6,182,212,0.2)}
+.lr{display:flex;align-items:center;gap:9px;padding:9px 16px;border-bottom:1px solid rgba(255,255,255,0.04)}
+.lr:last-child{border:none}
+.av{width:26px;height:26px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:700;color:white;flex-shrink:0}
+.ln{font-size:10px;color:rgba(255,255,255,0.85);flex:1}
+.ls{font-size:9px;color:rgba(255,255,255,0.3)}
+.bk{font-size:8px;padding:2px 9px;border-radius:8px}
+.bk-ok{background:rgba(16,185,129,0.12);color:#34d399;border:1px solid rgba(16,185,129,0.2)}
+.bk-fail{background:rgba(239,68,68,0.12);color:#f87171;border:1px solid rgba(239,68,68,0.2)}
+.chart-body{padding:14px 16px}
+.bars{display:flex;align-items:flex-end;gap:6px;height:95px;margin-bottom:6px}
+.bw{flex:1;display:flex;flex-direction:column;align-items:center;gap:4px}
+.b{width:100%;border-radius:5px 5px 0 0}
+.bl{font-size:8px;color:rgba(255,255,255,0.25)}
+.prog-area{padding:0 16px 14px}
+.prog-row{display:flex;align-items:center;gap:8px;margin-bottom:9px}
+.prog-lbl{font-size:10px;color:rgba(255,255,255,0.5);width:65px;flex-shrink:0}
+.prog-bar{flex:1;height:5px;background:rgba(255,255,255,0.07);border-radius:3px;overflow:hidden}
+.prog-fill{height:100%;border-radius:3px}
+.prog-val{font-size:10px;color:rgba(255,255,255,0.6);width:32px;text-align:right}
+</style>
+</head>
+<body>
+<div class="app">
+  <div class="sidebar">
+    <div class="logo-area">
+      <div class="logo-ring"><i class="ti ti-layout-grid" style="color:white;font-size:20px"></i></div>
+      <div class="logo-name">BOYUT</div>
+      <div class="logo-tag">TURNİKE SİSTEMİ</div>
+    </div>
+    <div class="nav">
+      <div class="ni active"><i class="ti ti-layout-dashboard"></i>Dashboard</div>
+      <div class="ni"><i class="ti ti-camera"></i>Kamera<span class="ni-badge">8</span></div>
+      <div class="ni"><i class="ti ti-flame"></i>Yangın Alarm</div>
+      <div class="ni"><i class="ti ti-door-enter"></i>Kartlı Geçiş</div>
+      <div class="ni"><i class="ti ti-credit-card"></i>Kart Yönetimi</div>
+      <div class="ni"><i class="ti ti-chart-line"></i>İstatistikler</div>
+      <div class="ni"><i class="ti ti-school"></i>Öğrenci Bilgi</div>
+      <div class="ni"><i class="ti ti-shield-lock"></i>Güvenlik Log</div>
+      <div class="ni"><i class="ti ti-settings"></i>Ayarlar</div>
+    </div>
+    <div class="user-area">
+      <div style="display:flex;align-items:center;gap:9px">
+        <div class="user-av">SY</div>
+        <div>
+          <div style="font-size:10px;color:rgba(255,255,255,0.8);font-weight:600">Sistem Yön.</div>
+          <div style="font-size:9px;color:rgba(139,92,246,0.6)">Admin · v1.12</div>
+        </div>
+        <i class="ti ti-logout" style="margin-left:auto;font-size:14px;color:rgba(255,255,255,0.2)"></i>
+      </div>
+    </div>
+  </div>
+
+  <div class="main">
+    <div class="topbar">
+      <div>
+        <div class="greeting">Kartlı Geçiş Dashboard</div>
+        <div class="greeting-sub">Fırat Üniversitesi · 29 Nisan 2026, Çarşamba</div>
+      </div>
+      <div class="topbar-pills">
+        <div class="pill pill-live"><div class="pulse"></div>Canlı</div>
+        <div class="pill"><i class="ti ti-bell" style="font-size:13px"></i>3 Bildirim</div>
+        <div class="pill"><i class="ti ti-refresh" style="font-size:13px"></i>Yenile</div>
+      </div>
+    </div>
+
+    <div class="stats-row">
+      <div class="sc sc-1">
+        <div class="sc-glow"></div>
+        <div class="sc-icon"><i class="ti ti-users"></i></div>
+        <div class="sc-num">49.390</div>
+        <div class="sc-lbl">Toplam Kullanıcı</div>
+        <div class="sc-trend" style="color:#a78bfa"><i class="ti ti-circle-check" style="font-size:10px"></i>49.389 aktif</div>
+      </div>
+      <div class="sc sc-2">
+        <div class="sc-glow"></div>
+        <div class="sc-icon"><i class="ti ti-school"></i></div>
+        <div class="sc-num">43.463</div>
+        <div class="sc-lbl">Öğrenci</div>
+        <div class="sc-trend" style="color:#06b6d4"><i class="ti ti-trending-up" style="font-size:10px"></i>43.462 aktif</div>
+      </div>
+      <div class="sc sc-3">
+        <div class="sc-glow"></div>
+        <div class="sc-icon"><i class="ti ti-briefcase"></i></div>
+        <div class="sc-num">5.927</div>
+        <div class="sc-lbl">Çalışan</div>
+        <div class="sc-trend" style="color:#34d399"><i class="ti ti-trending-up" style="font-size:10px"></i>tümü aktif</div>
+      </div>
+      <div class="sc sc-4">
+        <div class="sc-glow"></div>
+        <div class="sc-icon"><i class="ti ti-x"></i></div>
+        <div class="sc-num">7.418</div>
+        <div class="sc-lbl">Başarısız Geçiş</div>
+        <div class="sc-trend" style="color:#f87171"><i class="ti ti-trending-down" style="font-size:10px"></i>↓ -5% düşüş</div>
+      </div>
+    </div>
+
+    <div class="stats-row2">
+      <div class="sc2">
+        <div class="sc2-icon" style="background:rgba(6,182,212,0.15);color:#06b6d4"><i class="ti ti-trending-up"></i></div>
+        <div><div class="sc2-num">44.927</div><div class="sc2-lbl">Toplam Geçiş</div><div class="sc2-tr" style="color:#34d399">↑ +12%</div></div>
+      </div>
+      <div class="sc2">
+        <div class="sc2-icon" style="background:rgba(16,185,129,0.15);color:#34d399"><i class="ti ti-circle-check"></i></div>
+        <div><div class="sc2-num">37.435</div><div class="sc2-lbl">Başarılı Geçiş</div><div class="sc2-tr" style="color:#34d399">↑ +8%</div></div>
+      </div>
+      <div class="sc2">
+        <div class="sc2-icon" style="background:rgba(139,92,246,0.15);color:#a78bfa"><i class="ti ti-credit-card"></i></div>
+        <div><div class="sc2-num">46.625</div><div class="sc2-lbl">Toplam Kart</div><div class="sc2-tr" style="color:#a78bfa">tümü aktif</div></div>
+      </div>
+      <div class="sc2">
+        <div class="sc2-icon" style="background:rgba(251,191,36,0.15);color:#fbbf24"><i class="ti ti-clock"></i></div>
+        <div><div class="sc2-num">734</div><div class="sc2-lbl">Bugünkü Geçiş</div><div class="sc2-tr" style="color:#fbbf24">29.04.2026</div></div>
+      </div>
+    </div>
+
+    <div class="bottom">
+      <div class="panel">
+        <div class="ph">
+          <div class="pulse"></div>
+          <span class="ph-title">Son Log Kayıtları</span>
+          <span class="ph-badge">Canlı</span>
+        </div>
+        <div class="lr"><div class="av" style="background:linear-gradient(135deg,#7c3aed,#06b6d4)">M</div><div><div class="ln">Mehmet Sıdık Karakaya</div><div class="ls">Öğrenci · SAĞ 4-5 · 11:33</div></div><span class="bk bk-ok">BAŞARILI</span></div>
+        <div class="lr"><div class="av" style="background:linear-gradient(135deg,#0891b2,#7c3aed)">B</div><div><div class="ln">Beyza Nur Karadağ</div><div class="ls">Öğrenci · SOL 2 · 11:33</div></div><span class="bk bk-ok">BAŞARILI</span></div>
+        <div class="lr"><div class="av" style="background:linear-gradient(135deg,#059669,#0891b2)">E</div><div><div class="ln">Elif Cankara</div><div class="ls">Öğrenci · SOL 2 · 11:30</div></div><span class="bk bk-ok">BAŞARILI</span></div>
+        <div class="lr"><div class="av" style="background:linear-gradient(135deg,#dc2626,#9333ea)">V</div><div><div class="ln">Veysel Şahin Düzgün</div><div class="ls">Öğrenci · SAĞ 4-5 · 11:22</div></div><span class="bk bk-fail">BAŞARISIZ</span></div>
+        <div class="lr"><div class="av" style="background:linear-gradient(135deg,#d97706,#059669)">Y</div><div><div class="ln">Yusuf Yıldız</div><div class="ls">Öğrenci · SAĞ 2-3 · 11:21</div></div><span class="bk bk-ok">BAŞARILI</span></div>
+        <div class="lr"><div class="av" style="background:linear-gradient(135deg,#7c3aed,#ec4899)">S</div><div><div class="ln">Şule Nur Baygut</div><div class="ls">Öğrenci · SAĞ 3 · 11:28</div></div><span class="bk bk-ok">BAŞARILI</span></div>
+      </div>
+      <div class="panel">
+        <div class="ph">
+          <i class="ti ti-chart-bar" style="font-size:14px;color:#06b6d4"></i>
+          <span class="ph-title">Saatlik Geçiş Analizi</span>
+        </div>
+        <div class="chart-body">
+          <div class="bars">
+            <div class="bw"><div class="b" style="height:28%;background:linear-gradient(180deg,#7c3aed,rgba(124,58,237,0.15))"></div><span class="bl">08</span></div>
+            <div class="bw"><div class="b" style="height:50%;background:linear-gradient(180deg,#7c3aed,rgba(124,58,237,0.15))"></div><span class="bl">09</span></div>
+            <div class="bw"><div class="b" style="height:75%;background:linear-gradient(180deg,#06b6d4,rgba(6,182,212,0.15))"></div><span class="bl">10</span></div>
+            <div class="bw"><div class="b" style="height:100%;background:linear-gradient(180deg,#06b6d4,rgba(6,182,212,0.15))"></div><span class="bl">11</span></div>
+            <div class="bw"><div class="b" style="height:62%;background:linear-gradient(180deg,#7c3aed,rgba(124,58,237,0.15))"></div><span class="bl">12</span></div>
+            <div class="bw"><div class="b" style="height:38%;background:linear-gradient(180deg,#7c3aed,rgba(124,58,237,0.15))"></div><span class="bl">13</span></div>
+            <div class="bw"><div class="b" style="height:68%;background:linear-gradient(180deg,#06b6d4,rgba(6,182,212,0.15))"></div><span class="bl">14</span></div>
+            <div class="bw"><div class="b" style="height:45%;background:linear-gradient(180deg,#7c3aed,rgba(124,58,237,0.15))"></div><span class="bl">15</span></div>
+          </div>
+          <div style="font-size:9px;color:rgba(255,255,255,0.25);text-align:center;margin-bottom:10px">En yoğun saat: 11:00 — 734 geçiş</div>
+        </div>
+        <div class="ph" style="border-top:1px solid rgba(255,255,255,0.06);border-bottom:none">
+          <i class="ti ti-door-enter" style="font-size:14px;color:#a78bfa"></i>
+          <span class="ph-title">Turnike Yoğunluğu</span>
+        </div>
+        <div class="prog-area" style="margin-top:10px">
+          <div class="prog-row"><span class="prog-lbl">ANA GİRİŞ</span><div class="prog-bar"><div class="prog-fill" style="width:93%;background:linear-gradient(90deg,#ec4899,#7c3aed)"></div></div><span class="prog-val">93%</span></div>
+          <div class="prog-row"><span class="prog-lbl">SAĞ 4-5</span><div class="prog-bar"><div class="prog-fill" style="width:87%;background:linear-gradient(90deg,#7c3aed,#06b6d4)"></div></div><span class="prog-val">87%</span></div>
+          <div class="prog-row"><span class="prog-lbl">SOL 2</span><div class="prog-bar"><div class="prog-fill" style="width:74%;background:linear-gradient(90deg,#7c3aed,#06b6d4)"></div></div><span class="prog-val">74%</span></div>
+          <div class="prog-row"><span class="prog-lbl">SAĞ 2-3</span><div class="prog-bar"><div class="prog-fill" style="width:61%;background:linear-gradient(90deg,#06b6d4,#10b981)"></div></div><span class="prog-val">61%</span></div>
+          <div class="prog-row"><span class="prog-lbl">SOL 3</span><div class="prog-bar"><div class="prog-fill" style="width:45%;background:linear-gradient(90deg,#06b6d4,#10b981)"></div></div><span class="prog-val">45%</span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+</body>
+</html>
